@@ -1,7 +1,8 @@
 # Pull base image.
 FROM wscherphof/oracle-linux-7
 
-RUN yum -y install binutils compat-libcap1 compat-libstdc++-33 compat-libstdc++-33.i686 gcc gcc-c++ glibc.i686 glibc glibc-devel glibc-devel.i686 ksh libgcc.i686 libgcc libstdc++ libstdc++.i686 libstdc++-devel libstdc++-devel.i686 libaio libaio.i686 libaio-devel libaio-devel.i686 libXext libXext.i686 libXtst libXtst.i686 libX11 libX11.i686 libXau libXau.i686 libxcb libxcb.i686 libXi libXi.i686 make sysstat vte3 smartmontools unzip sudo wget tar
+RUN yum -y install binutils compat-libcap1 compat-libstdc++-33 compat-libstdc++-33.i686 gcc gcc-c++ glibc.i686 glibc glibc-devel glibc-devel.i686 ksh libgcc.i686 libgcc libstdc++ libstdc++.i686 libstdc++-devel libstdc++-devel.i686 libaio libaio.i686 libaio-devel libaio-devel.i686 libXext libXext.i686 libXtst libXtst.i686 libX11 libX11.i686 libXau libXau.i686 libxcb libxcb.i686 libXi libXi.i686 make sysstat vte3 smartmontools unzip sudo wget tar && \
+yum clean all
 
 
 
@@ -34,9 +35,22 @@ RUN chmod +x /tmp/install/install.sh && \
 	/oracle/app/ohome/root.sh && \
 	rm -Rf /tmp/install
 
+# RUN mkdir -p /usr/local/apache-maven && \
+#	cd /usr/local/ && \
+#	wget http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1-bin.tar.gz && \
+#	tar xvf apache-maven-3.2.1-bin.tar.gz && \
+#	mv ./apache-maven-3.2.1 /usr/local/apache-maven/ && \
+#	rm -f /usr/local/apache-maven-3.2.1-bin.tar.gz
+
+#ENV M2_HOME /usr/local/apache-maven/
+#ENV M2 $M2_HOME/bin
+#ENV PATH $M2:$PATH
+
 ENV ORACLE_HOME /oracle/app/ohome/
 ENV PATH $PATH:$ORACLE_HOME/bin
 ENV LD_LIBRARY_PATH $ORACLE_HOME/lib
+
+RUN rm -rf /var/lib/yum/history/* /tmp/* /var/tmp/* /var/log/* /oracle/oinventory/logs/* /oracle/app/ohome/install/*
 
 # Define working directory.
 WORKDIR /tmp
